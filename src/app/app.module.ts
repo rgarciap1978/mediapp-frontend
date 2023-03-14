@@ -4,57 +4,52 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PatientComponent } from './pages/patient/patient.component';
-import { MedicComponent } from './pages/medic/medic.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from './material/material.module';
-import { PatientEditComponent } from './pages/patient/patient-edit/patient-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MedicDialogComponent } from './pages/medic/medic-dialog/medic-dialog.component';
-import { ExamComponent } from './pages/exam/exam.component';
-import { ExamEditComponent } from './pages/exam/exam-edit/exam-edit.component';
-import { SpecialtyComponent } from './pages/specialty/specialty.component';
-import { SpecialtyEditComponent } from './pages/specialty/specialty-edit/specialty-edit.component';
-import { ExamDialogComponent } from './pages/exam/exam-dialog/exam-dialog.component';
-import { ConsultComponent } from './pages/consult/consult.component';
-import { ConsultAutocompleteComponent } from './pages/consult-autocomplete/consult-autocomplete.component';
-import { ConsultWizardComponent } from './pages/consult-wizard/consult-wizard.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { SearchComponent } from './pages/search/search.component';
-import { ReportComponent } from './pages/report/report.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { SearchDialogComponent } from './pages/search/search-dialog/search-dialog.component';
+import { LoginComponent } from './pages/login/login.component';
+import { LayoutComponent } from './pages/layout/layout.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { JwtModule } from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
+export function tokenGetter() {
+  return sessionStorage.getItem(environment.TOKEN_NAME);
+}
 
 @NgModule({
   declarations: [
     AppComponent,
-    PatientComponent,
-    MedicComponent,
-    PatientEditComponent,
-    MedicDialogComponent,
-    ExamComponent,
-    ExamEditComponent,
-    SpecialtyComponent,
-    SpecialtyEditComponent,
-    ExamDialogComponent,
-    ConsultComponent,
-    ConsultAutocompleteComponent,
-    ConsultWizardComponent,
-    SearchComponent,
-    ReportComponent,
-    SearchDialogComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    MaterialModule,
     ReactiveFormsModule,  // para uso de forms
     FormsModule,  // para two-way binding
-    FlexLayoutModule,
-    PdfViewerModule
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatDividerModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatCardModule,
+    MatSnackBarModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:8080"], // Dominio o IP Publica, sin http(s)
+        disallowedRoutes: ["http://localhost:8080/login/forget"], // URL por donde no s eenviará el token
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
