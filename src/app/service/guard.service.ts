@@ -19,16 +19,16 @@ export class GuardService implements CanActivate {
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
+
     // 1) VERIFICAR SI EL USUARIO ESTA LOGUEADO
     let rpta = this.loginService.isLogged();
-    if(rpta){
+    if(!rpta){
       this.loginService.logout();
       return false;
     }
     // 2) VERIFICAR SI EL TOKEN NO HA EXPIRADO
     const helper = new JwtHelperService();
     let token = sessionStorage.getItem(environment.TOKEN_NAME);
-
     if(!helper.isTokenExpired(token)){
       // 3) VERIFICAR SI TIENE EL ROL NECESARIO PARA ACCEDER A ESE COMPONENTE 'PAGINA'
       //  url -> /pages/patient
